@@ -50,7 +50,7 @@ afterEvaluate {
 
                 groupId = "com.github.Mostafa"
                 artifactId = "libraryTest"
-                version = "3.0"
+                version = "4.0"
             }
         }
     }
