@@ -1,6 +1,7 @@
 package com.example.librarytesting
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +14,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.librarytesting.ui.theme.LibraryTestingTheme
 
 class MainActivity : ComponentActivity() {
+    override fun onStart() {
+        super.onStart()
+        runGradleTask("DownloadTokens")
+
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -27,6 +33,12 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
+
+fun runGradleTask(taskName: String) {
+    Log.d("TAG", "runGradleTask: before")
+    Runtime.getRuntime().exec("chmod +x gradlew $taskName")
+    Log.d("TAG", "runGradleTask: after")
 }
 
 @Composable

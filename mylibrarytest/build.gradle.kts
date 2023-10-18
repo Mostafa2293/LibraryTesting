@@ -1,5 +1,3 @@
-import java.net.URL
-import java.io.FileOutputStream
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -35,32 +33,9 @@ android {
     }
 }
 
-open class DownloadTokensJson : DefaultTask() {
 
-    @TaskAction
-    fun downloadFile() {
-        val url =
-            URL("https://raw.githubusercontent.com/Andrew2120/fiber-core/main/Tokens.kt")
-        val outputDir = File("mylibrarytest/src/main/java/com/example/mylibrarytest") // Specify the assets folder
-        val outputFile = File(outputDir, "Tokens.kt")
-        val connection = url.openConnection()
-        connection.connect()
-        val inputStream = connection.getInputStream()
 
-        val outputStream = FileOutputStream(outputFile)
-        val buffer = ByteArray(4096)
-        var bytesRead: Int
-        while (inputStream.read(buffer).also { bytesRead = it } != -1) {
-            outputStream.write(buffer, 0, bytesRead)
-        }
-
-        inputStream.close()
-        outputStream.close()
-    }
-}
-tasks.register<DownloadTokensJson>("DownloadTokens")
-
-tasks.getByPath("preBuild").dependsOn("DownloadTokens")
+//tasks.getByPath("preBuild").dependsOn("DownloadTokens")
 
 dependencies {
 
@@ -80,7 +55,7 @@ afterEvaluate {
 
                 groupId = "com.github.Mostafa"
                 artifactId = "libraryTest"
-                version = "9.0"
+                version = "11.0"
             }
         }
     }

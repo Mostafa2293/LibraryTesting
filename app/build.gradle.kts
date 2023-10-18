@@ -1,3 +1,5 @@
+import java.net.URL
+import java.io.FileOutputStream
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -48,6 +50,29 @@ android {
         }
     }
 }
+open class DownloadTokensJson : DefaultTask() {
+
+    @TaskAction
+    fun downloadFile() {
+        val url = URL("https://raw.githubusercontent.com/Andrew2120/fiber-core/main/Tokens.kt")
+        val outputDir = File("src/main/java/com/example/librarytesting") // Specify the assets folder
+        val outputFile = File(outputDir, "Tokens.kt")
+        val connection = url.openConnection()
+        connection.connect()
+        val inputStream = connection.getInputStream()
+
+        val outputStream = FileOutputStream(outputFile)
+        val buffer = ByteArray(4096)
+        var bytesRead: Int
+        while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+            outputStream.write(buffer, 0, bytesRead)
+        }
+
+        inputStream.close()
+        outputStream.close()
+    }
+}
+tasks.register<DownloadTokensJson>("DownloadTokens")
 
 dependencies {
 
@@ -60,6 +85,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     testImplementation("junit:junit:4.13.2")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
